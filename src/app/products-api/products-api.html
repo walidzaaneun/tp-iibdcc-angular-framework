@@ -1,0 +1,80 @@
+<div class="p-3">
+  <div class="card-body">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Selected</th>
+      </tr>
+      </thead>
+      <tbody>
+        @if (products){
+          @for (p of products; track p) {
+            <tr>
+              <td>{{p.id}}</td>
+              <td>{{p.name}}</td>
+              <td>{{p.quantity}}</td>
+              <td>{{p.price}}</td>
+              <td>
+                @if (p.selected){
+                  <i class="bi bi-check-circle text-success"></i>
+                } @else {
+                  <i class="bi bi-x-circle text-danger"></i>
+                }
+              </td>
+              <td>
+                <button (click)="handleDelete(p)" class="btn btn-outline-danger">
+                  <i class="bi-trash-fill"></i>
+                </button>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+@if (showModal) {
+  <!-- Dark backdrop overlay -->
+  <div class="modal-backdrop fade show"></div>
+
+  <!-- Modal Container -->
+  <div class="modal fade show d-block" tabindex="-1" role="dialog" style="top: 20%;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content shadow-lg border-0">
+
+        <!-- Header color changes dynamically based on modalType -->
+        <div class="modal-header text-white"
+             [class.bg-success]="modalType === 'success'"
+             [class.bg-danger]="modalType === 'danger'">
+          <h5 class="modal-title">
+            @if (modalType === 'success') {
+              <i class="bi bi-check-circle-fill me-2"></i>
+            } @else {
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            }
+            {{ modalTitle }}
+          </h5>
+          <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="closeModal()"></button>
+        </div>
+
+        <div class="modal-body py-4">
+          <p class="fs-5 mb-0 text-secondary">{{ modalMessage }}</p>
+        </div>
+
+        <div class="modal-footer border-0">
+          <button type="button"
+                  class="btn px-4"
+                  [class.btn-success]="modalType === 'success'"
+                  [class.btn-danger]="modalType === 'danger'"
+                  (click)="closeModal()">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
